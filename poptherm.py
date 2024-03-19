@@ -2,7 +2,8 @@ import requests
 import pandas as pd
 import numpy as np
 import streamlit as st
-print(st.secrets['TEST'])
+st.title('Population of Mecklenburg Country Census Blocks')
+
 def get_lat_lng(address):
     api_key = st.secrets['GOOGLE_KEY']
     base_url = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -49,12 +50,12 @@ merged_blocks = pd.read_csv("cencus_block_population_by_year.csv")
 block_velos = getVelocity(2016,2021,merged_blocks)
 
 # Example usage
-address = '2705 Haverford Pl'
+address = st.text_input("Address",value="2705 Haverford Pl")
 latitude, longitude = get_lat_lng(address)
 if latitude is not None and longitude is not None:
     input_address = np.array([latitude, longitude])
 block_velos['lookup_distance'] = block_velos.apply(lambda row: np.linalg.norm(row[['lat', 'long']].values - input_address), axis=1)
-print(block_velos.loc[block_velos['lookup_distance'].idxmin()][['block','vel_z']])
+st.subheader(block_velos.loc[block_velos['lookup_distance'].idxmin()][['block','vel_z']].values)
 
 
     
