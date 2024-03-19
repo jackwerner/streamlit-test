@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import numpy as np
 import streamlit as st
-
+print(st.secrets['TEST'])
 def get_lat_lng(address):
     api_key = st.secrets['GOOGLE_KEY']
     base_url = 'https://maps.googleapis.com/maps/api/geocode/json'
